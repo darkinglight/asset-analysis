@@ -7,9 +7,9 @@
     a. http post form  
     b. spider
     filds is as below:
-    1. 总收入
-    2. 总成本
-    3. 总利润
+    1. 营业收入
+    2. 营业成本
+    3. 净利润
 2. asset analysis:
     compute by a server job
     analysis data is as below:
