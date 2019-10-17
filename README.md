@@ -25,3 +25,8 @@
 3. asset view 
     view by web page, show asset's value and reliability list, click to view the detial.
     list is order by 利润率.
+
+model:
+1. data
+2. algorithm
+3. view
