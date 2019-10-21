@@ -40,11 +40,11 @@ func (income Income) getGrossProfitRate() int {
 //利润表存储接口
 type Repository interface {
 	//save one income data
-	Save(data Income) error
+	Save(data *Income) error
 
 	//fetch one income data
-	Find(id int) Income
+	Find(id int) *Income
 
 	//find list income data
-	FindAll() []Income
+	FindAll() []*Income
 }

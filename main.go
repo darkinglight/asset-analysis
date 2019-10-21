@@ -1,6 +1,7 @@
 package main
 
 import (
+	"asset-analysis/asset"
 	"asset-analysis/inmem"
 	"context"
 	"fmt"

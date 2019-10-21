@@ -1,7 +1,7 @@
 package asset
 
 import (
-	"fmt"
+	"asset-analysis/income"
 )
 
 type Service interface {

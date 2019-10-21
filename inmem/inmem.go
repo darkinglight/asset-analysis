@@ -6,24 +6,28 @@ import (
 )
 
 type incomeRepository struct {
-	mtx    sync.RWMutex
-	incoms map[int]*income.Income
+	mtx     sync.RWMutex
+	incomes map[int]*income.Income
 }
 
 func (r *incomeRepository) Save(i *income.Income) error {
 	r.mtx.Lock()
-	defer r.mtx.UnLock()
-	r.incoms[i.StatementId] = i
+	defer r.mtx.Unlock()
+	r.incomes[i.StatementId] = i
 	return nil
 }
 
 func (r *incomeRepository) Find(statementId int) *income.Income {
-	result := r.incoms[statementId]
+	result := r.incomes[statementId]
 	return result
 }
 
 func (r *incomeRepository) FindAll() []*income.Income {
-	return r.incoms
+	var result []*income.Income
+	for _, income := range r.incomes {
+		result = append(result, income)
+	}
+	return result
 }
 
 func NewIncomeRepository() income.Repository {
