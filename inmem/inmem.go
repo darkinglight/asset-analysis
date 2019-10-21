@@ -1,6 +1,7 @@
 package inmem
 
 import (
+	"asset-analysis/income"
 	"sync"
 )
 

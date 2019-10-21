@@ -3,8 +3,6 @@ package income
 
 import (
 	"errors"
-	"fmt"
-	"sync"
 )
 
 var ErrInvalidArgument = errors.New("invalid argument")
@@ -35,7 +33,7 @@ type Income struct {
 	NetProfit int
 }
 
-func (income Income) getGrossProfitRate() float64 {
+func (income Income) getGrossProfitRate() int {
 	return income.GrossProfit / income.BusinessIncome
 }
 

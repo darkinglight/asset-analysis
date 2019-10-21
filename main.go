@@ -1,6 +1,7 @@
 package main
 
 import (
+	"asset-analysis/inmem"
 	"context"
 	"fmt"
 	"github.com/go-kit/kit/log"
