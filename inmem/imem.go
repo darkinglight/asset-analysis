@@ -6,14 +6,21 @@ import (
 
 type incomeRepository struct {
 	mtx    sync.RWMutex
-	autoId int
 	incoms map[int]*income.Income
 }
 
 func (r *incomeRepository) Save(i *income.Income) error {
 	r.mtx.Lock()
 	defer r.mtx.UnLock()
-	r.autoId++
-	r.incoms[r.autoId] = i
+	r.incoms[i.StatementId] = i
 	return nil
+}
+
+func (r *incomeRepository) Find(statementId int) *income.Income {
+	result := r.incoms[statementId]
+	return result
+}
+
+func (r *incomeRepository) FindAll() []*income.Income {
+	return r.incoms
 }
