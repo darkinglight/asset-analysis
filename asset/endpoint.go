@@ -16,6 +16,8 @@ type addIncomeResponse struct {
 	Err error `json:"error,omitempty"`
 }
 
+func (r addIncomeResponse) error() error { return r.Err }
+
 func makeAddIncomeEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) error {
 		req := request.(addIncomeRequest)
@@ -29,21 +31,28 @@ func makeAddIncomeEndpoint(s Service) endpoint.Endpoint {
 	}
 }
 
-type FindIncomeRequest struct {
+type findIncomeRequest struct {
 	StatementId int
 }
 
-type FindIncomeResponse struct {
+type Income struct {
 	StatementId    int `json:"statement_id,omitempty"`
 	BusinessIncome int `json:"business_income,omitempty"`
 	BusinessCost   int `json:"business_cost,omitempty"`
 	GrossProfit    int `json:"gross_profit,omitempty"`
 }
 
-func makeFindIncomeEndpoint(s Service) endpoint.Endpoint {
+type findIncomeResponse struct {
+	Income *Income `json:"income,omitempty"`
+	Err    error   `json:"error,omitempty"`
+}
+
+func (r findIncomeResponse) error() error { return r.Err }
+
+func makefindIncomeEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx contxt.Context, request interface{}) (interface{}, error) {
-		req := request.(FindIncomeRequest)
-		data, err := s.FindIncome(req.StatementId)
-		return data, err
+		req := request.(findIncomeRequest)
+		data, err := s.findIncome(req.StatementId)
+		return findIncomeResponse{Income: &data, Err: err}, nil
 	}
 }
