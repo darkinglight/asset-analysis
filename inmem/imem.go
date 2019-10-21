@@ -24,3 +24,9 @@ func (r *incomeRepository) Find(statementId int) *income.Income {
 func (r *incomeRepository) FindAll() []*income.Income {
 	return r.incoms
 }
+
+func NewIncomeRepository() income.Repository {
+	return &incomeRepository{
+		incomes: make(map[int]*income.Income),
+	}
+}

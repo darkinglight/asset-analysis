@@ -3,8 +3,32 @@ package asset
 import (
 	"context"
 	"encoding/json"
+	kitlog "github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/transport"
+	kithttp "github.com/go-kit/kit/transport/http"
+	"github.com/gorilla/mux"
 	"net/http"
 )
+
+func MakeHandler(s Service, logger kitlog.Logger) http.Handler {
+	opts := []kithttp.ServerOption{
+		kithttp.ServerErrorHandler(transport.NewLogErrorHandler(logger)),
+		kithttp.ServerErrorEncoder(encodeError),
+	}
+
+	addIncomeHandler := kithttp.NewServer(
+		makeAddIncomeEndpoint(s),
+		decodeAddIncomeRequest,
+		encodeResponse,
+		opts...,
+	)
+
+	r := mux.NewRouter()
+
+	r.Handle("/asset/v1/income", addIncomeHandler).Methods("POST")
+
+	return r
+}
 
 func decodeAddIncomeRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	var body struct {

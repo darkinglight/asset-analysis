@@ -11,7 +11,7 @@ type Service interface {
 }
 
 type service struct {
-	income income.incomeRepository
+	income income.Repository
 }
 
 func (s service) AddIncome(statementId int, businessIncome int, businessCost int, grossProfit int) error {
@@ -28,4 +28,10 @@ func (s service) AddIncome(statementId int, businessIncome int, businessCost int
 func (s service) FindIncome(statementId int) *income.Income {
 	income := s.income.FindIncome(statementId)
 	return income
+}
+
+func NewService(income income.Repository) Service {
+	return &service{
+		income: income,
+	}
 }

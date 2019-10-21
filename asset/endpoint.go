@@ -49,7 +49,7 @@ type findIncomeResponse struct {
 
 func (r findIncomeResponse) error() error { return r.Err }
 
-func makefindIncomeEndpoint(s Service) endpoint.Endpoint {
+func MakefindIncomeEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx contxt.Context, request interface{}) (interface{}, error) {
 		req := request.(findIncomeRequest)
 		data, err := s.findIncome(req.StatementId)
