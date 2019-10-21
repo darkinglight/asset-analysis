@@ -7,7 +7,7 @@ import (
 type Service interface {
 	AddIncome(statementId int, businessIncome int, businessCost int, grossProfit int) error
 
-	FindIncome(statementId int) *income.Income
+	FindIncome(statementId int) *Income
 }
 
 type service struct {
@@ -25,9 +25,14 @@ func (s service) AddIncome(statementId int, businessIncome int, businessCost int
 	return saveError
 }
 
-func (s service) FindIncome(statementId int) *income.Income {
+func (s service) FindIncome(statementId int) *Income {
 	income := s.income.Find(statementId)
-	return income
+	return &Income{
+		StatementId:    income.StatementId,
+		BusinessIncome: income.BusinessIncome,
+		BusinessCost:   income.BusinessCost,
+		GrossProfit:    income.GrossProfit,
+	}
 }
 
 func NewService(income income.Repository) Service {

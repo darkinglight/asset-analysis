@@ -52,7 +52,7 @@ func (r findIncomeResponse) error() error { return r.Err }
 func MakefindIncomeEndpoint(s Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(findIncomeRequest)
-		data, err := s.FindIncome(req.StatementId)
-		return findIncomeResponse{Income: &data, Err: err}, nil
+		data := s.FindIncome(req.StatementId)
+		return findIncomeResponse{Income: data, Err: nil}, nil
 	}
 }

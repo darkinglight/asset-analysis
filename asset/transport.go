@@ -37,7 +37,7 @@ func decodeAddIncomeRequest(_ context.Context, r *http.Request) (interface{}, er
 		BusinessCost   int `json:"business_cost"`
 		GrossProfit    int `json:"gross_profit"`
 	}
-	if err := json.NewDecoder(addIncomeRequest).Decode(&body); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		return nil, err
 	}
 
