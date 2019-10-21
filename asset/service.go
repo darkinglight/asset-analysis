@@ -26,7 +26,7 @@ func (s service) AddIncome(statementId int, businessIncome int, businessCost int
 }
 
 func (s service) FindIncome(statementId int) *income.Income {
-	income := s.income.FindIncome(statementId)
+	income := s.income.Find(statementId)
 	return income
 }
 

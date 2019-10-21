@@ -19,7 +19,7 @@ type addIncomeResponse struct {
 func (r addIncomeResponse) error() error { return r.Err }
 
 func makeAddIncomeEndpoint(s Service) endpoint.Endpoint {
-	return func(ctx context.Context, request interface{}) error {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(addIncomeRequest)
 		err := s.AddIncome(
 			req.StatementId,
@@ -27,7 +27,7 @@ func makeAddIncomeEndpoint(s Service) endpoint.Endpoint {
 			req.BusinessCost,
 			req.GrossProfit,
 		)
-		return err
+		return &addIncomeResponse{Err: err}, nil
 	}
 }
 
@@ -50,9 +50,9 @@ type findIncomeResponse struct {
 func (r findIncomeResponse) error() error { return r.Err }
 
 func MakefindIncomeEndpoint(s Service) endpoint.Endpoint {
-	return func(ctx contxt.Context, request interface{}) (interface{}, error) {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(findIncomeRequest)
-		data, err := s.findIncome(req.StatementId)
+		data, err := s.FindIncome(req.StatementId)
 		return findIncomeResponse{Income: &data, Err: err}, nil
 	}
 }
