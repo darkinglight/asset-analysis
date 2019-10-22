@@ -1,8 +1,8 @@
 build: 
 	go build
 
-run:
+run: 
 	go run main.go
 
-clean:
+clean: 
 	rm -fr asset-analysis

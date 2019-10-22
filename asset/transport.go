@@ -3,12 +3,16 @@ package asset
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/transport"
 	kithttp "github.com/go-kit/kit/transport/http"
 	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
 )
+
+var errInvalidParam = errors.New("invalid paramters")
 
 func MakeHandler(s Service, logger kitlog.Logger) http.Handler {
 	opts := []kithttp.ServerOption{
@@ -23,9 +27,17 @@ func MakeHandler(s Service, logger kitlog.Logger) http.Handler {
 		opts...,
 	)
 
+	findIncomeHandler := kithttp.NewServer(
+		makeFindIncomeEndpoint(s),
+		decodeFindIncomeRequest,
+		encodeResponse,
+		opts...,
+	)
+
 	r := mux.NewRouter()
 
 	r.Handle("/asset/v1/income", addIncomeHandler).Methods("POST")
+	r.Handle("/asset/v1/income/{id}", findIncomeHandler).Methods("GET")
 
 	return r
 }
@@ -47,6 +59,19 @@ func decodeAddIncomeRequest(_ context.Context, r *http.Request) (interface{}, er
 		BusinessCost:   body.BusinessCost,
 		GrossProfit:    body.GrossProfit,
 	}, nil
+}
+
+func decodeFindIncomeRequest(_ context.Context, r *http.Request) (interface{}, error) {
+	vars := mux.Vars(r)
+	idString, ok := vars["statement_id"]
+	if !ok {
+		return nil, errInvalidParam
+	}
+	id, err := strconv.Atoi(idString)
+	if err != nil {
+		return nil, errInvalidParam
+	}
+	return findIncomeRequest{StatementId: id}, nil
 }
 
 func encodeResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
