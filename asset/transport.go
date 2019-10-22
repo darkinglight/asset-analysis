@@ -37,7 +37,7 @@ func MakeHandler(s Service, logger kitlog.Logger) http.Handler {
 	r := mux.NewRouter()
 
 	r.Handle("/asset/v1/income", addIncomeHandler).Methods("POST")
-	r.Handle("/asset/v1/income/{id}", findIncomeHandler).Methods("GET")
+	r.Handle("/asset/v1/income/{statement_id}", findIncomeHandler).Methods("GET")
 
 	return r
 }

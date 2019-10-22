@@ -17,4 +17,9 @@ func TestIncomeSave(t *testing.T) {
 	if err != nil {
 		t.Error("failed")
 	}
+
+	result := incomes.Find(1)
+	if result != data {
+		t.Error("data changed")
+	}
 }
