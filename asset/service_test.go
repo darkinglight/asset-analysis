@@ -12,4 +12,9 @@ func Test_AddIncome(t *testing.T) {
 	if err != nil {
 		t.Error("save failed")
 	}
+
+	data := service.FindIncome(1)
+	if data.GrossProfit != 4 {
+		t.Error("data not consist")
+	}
 }
