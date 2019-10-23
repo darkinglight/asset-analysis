@@ -25,6 +25,8 @@
 3. asset view 
     view by web page, show asset's value and reliability list, click to view the detial.
     list is order by 利润率.
+4. algrithm
+    define some valuable parameter, different algrithm can save different value to get its best asset
 
 model:
 1. data
