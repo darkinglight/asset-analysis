@@ -15,7 +15,7 @@ func main() {
 	var (
 		incomes = inmem.NewIncomeRepository()
 	)
-	httpAddr := ":8080"
+	httpAddr := ":8000"
 	var logger log.Logger
 	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)

@@ -27,6 +27,9 @@ func (s service) AddIncome(statementId int, businessIncome int, businessCost int
 
 func (s service) FindIncome(statementId int) *Income {
 	income := s.income.Find(statementId)
+	if income == nil {
+		return nil
+	}
 	return &Income{
 		StatementId:    income.StatementId,
 		BusinessIncome: income.BusinessIncome,
