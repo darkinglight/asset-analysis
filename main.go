@@ -3,6 +3,7 @@ package main
 import (
 	"asset-analysis/asset"
 	"asset-analysis/inmem"
+	"flag"
 	"fmt"
 	"github.com/go-kit/kit/log"
 	"net/http"
@@ -11,11 +12,19 @@ import (
 	"syscall"
 )
 
+const (
+	defaultPort = "8000"
+)
+
 func main() {
 	var (
-		incomes = inmem.NewIncomeRepository()
+		port     = envString("PORT", defaultPort)
+		httpAddr = flag.String("http.addr", ":"+port, "HTTP listen address")
+		incomes  = inmem.NewIncomeRepository()
 	)
-	httpAddr := ":8000"
+
+	flag.Parse()
+
 	var logger log.Logger
 	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
@@ -29,8 +38,8 @@ func main() {
 
 	errs := make(chan error, 2)
 	go func() {
-		logger.Log("transport", "http", "address", httpAddr, "msg", "listening")
-		errs <- http.ListenAndServe(httpAddr, nil)
+		logger.Log("transport", "http", "address", *httpAddr, "msg", "listening")
+		errs <- http.ListenAndServe(*httpAddr, nil)
 	}()
 	go func() {
 		c := make(chan os.Signal)
@@ -52,4 +61,12 @@ func accessControl(h http.Handler) http.Handler {
 
 		h.ServeHTTP(w, r)
 	})
+}
+
+func envString(env, fallback string) string {
+	e := os.Getenv(env)
+	if e == "" {
+		return fallback
+	}
+	return e
 }
