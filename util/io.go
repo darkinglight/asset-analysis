@@ -47,3 +47,8 @@ func (s *storage) Write(v interface{}) error {
 	fmt.Fprintln(*s.io, str)
 	return nil
 }
+
+func (s *storage) Read(v interface{}) ([]byte, error) {
+	v, err := s.io.ReadBytes("\n")
+	return v, err
+}
