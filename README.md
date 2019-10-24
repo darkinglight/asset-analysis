@@ -27,6 +27,8 @@
     list is order by 利润率.
 4. algrithm
     define some valuable parameter, different algrithm can save different value to get its best asset
+5. data store
+    save by file through json or encoding/binary
 
 model:
 1. data
