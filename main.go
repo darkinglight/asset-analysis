@@ -36,7 +36,7 @@ func main() {
 	mux.Handle("/asset/v1/", asset.MakeHandler(as, logger))
 	http.Handle("/", accessControl(mux))
 
-	errs := make(chan error, 2)
+	errs := make(chan error, 1)
 	go func() {
 		logger.Log("transport", "http", "address", *httpAddr, "msg", "listening")
 		errs <- http.ListenAndServe(*httpAddr, nil)
@@ -44,13 +44,14 @@ func main() {
 	go func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGINT)
-
-		//save data to store
-		as.StoreIncome()
-
 		errs <- fmt.Errorf("%s", <-c)
 	}()
+
 	logger.Log("terminated", <-errs)
+	//save data to store
+	logger.Log("start save data...")
+	as.StoreIncome()
+	logger.Log("terminated finished")
 }
 
 func accessControl(h http.Handler) http.Handler {
