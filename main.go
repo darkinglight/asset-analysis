@@ -47,11 +47,12 @@ func main() {
 		errs <- fmt.Errorf("%s", <-c)
 	}()
 
+	as.LoadIncome()
 	logger.Log("terminated", <-errs)
 	//save data to store
-	logger.Log("start save data...")
+	logger.Log("event", "start save data...")
 	as.StoreIncome()
-	logger.Log("terminated finished")
+	logger.Log("event", "terminated finished")
 }
 
 func accessControl(h http.Handler) http.Handler {
