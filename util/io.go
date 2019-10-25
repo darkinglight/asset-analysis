@@ -15,7 +15,7 @@ type Storage interface {
 	Open(filePath string) error
 	Close() error
 	Write(v interface{}) error
-	Read(v interface{}) error
+	Read() ([]byte, error)
 }
 
 type storage struct {
@@ -48,7 +48,13 @@ func (s *storage) Write(v interface{}) error {
 	return nil
 }
 
-func (s *storage) Read(v interface{}) ([]byte, error) {
-	v, err := s.io.ReadBytes("\n")
+func (s *storage) Read() ([]byte, error) {
+	v, err := s.io.ReadBytes('\n')
 	return v, err
+}
+
+func NewStore(filePath string) (Storage, error) {
+	s := &storage{}
+	err := s.Open(filePath)
+	return s, err
 }

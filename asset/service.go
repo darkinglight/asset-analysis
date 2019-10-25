@@ -2,12 +2,17 @@ package asset
 
 import (
 	"asset-analysis/income"
+	"asset-analysis/util"
 )
 
 type Service interface {
 	AddIncome(statementId int, businessIncome int, businessCost int, grossProfit int) error
 
 	FindIncome(statementId int) *Income
+
+	StoreIncome() error
+
+	LoadIncome() error
 }
 
 type service struct {
@@ -36,6 +41,21 @@ func (s service) FindIncome(statementId int) *Income {
 		BusinessCost:   income.BusinessCost,
 		GrossProfit:    income.GrossProfit,
 	}
+}
+
+func (s service) StoreIncome() error {
+	incomes := s.income.FindAll()
+	storage, err := util.NewStore(util.IncomeStorage)
+	if err != nil {
+		return err
+	}
+	storage.Write(incomes)
+	storage.Close()
+	return nil
+}
+
+func (s service) LoadIncome() error {
+	return nil
 }
 
 func NewService(income income.Repository) Service {
