@@ -3,6 +3,7 @@ package asset
 import (
 	"asset-analysis/income"
 	"asset-analysis/util"
+	"encoding/json"
 )
 
 type Service interface {
@@ -55,6 +56,19 @@ func (s service) StoreIncome() error {
 }
 
 func (s service) LoadIncome() error {
+	storage, err := util.NewStore(util.IncomeStorage)
+	if err != nil {
+		return err
+	}
+	data, err := storage.Read()
+	var incomes []*income.Income
+	json.NewDecoder(data).Decode(&incomes)
+
+	err = s.income.SaveAll(incomes)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 

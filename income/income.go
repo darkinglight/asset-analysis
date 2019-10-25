@@ -45,6 +45,9 @@ type Repository interface {
 	//fetch one income data
 	Find(id int) *Income
 
+	//save multi income data
+	SaveAll(data []*Income) error
+
 	//find list income data
 	FindAll() []*Income
 }

@@ -19,12 +19,13 @@ type Storage interface {
 }
 
 type storage struct {
-	file *os.File
-	io   *bufio.ReadWriter
+	filePath string
+	file     *os.File
+	io       *bufio.ReadWriter
 }
 
-func (s *storage) Open(filePath string) error {
-	file, err := os.Create(filePath)
+func (s *storage) Open() error {
+	file, err := os.Create(s.filePath)
 	if err != nil {
 		return err
 	}
@@ -54,7 +55,7 @@ func (s *storage) Read() ([]byte, error) {
 }
 
 func NewStore(filePath string) (Storage, error) {
-	s := &storage{}
-	err := s.Open(filePath)
+	s := &storage{filePath: filePath}
+	err := s.Open()
 	return s, err
 }

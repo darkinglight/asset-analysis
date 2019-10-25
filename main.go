@@ -46,6 +46,7 @@ func main() {
 		signal.Notify(c, syscall.SIGINT)
 
 		//save data to store
+		as.StoreIncome()
 
 		errs <- fmt.Errorf("%s", <-c)
 	}()
