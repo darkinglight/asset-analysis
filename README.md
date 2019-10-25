@@ -16,6 +16,7 @@
     6. 营业利润（=1 - 2 - 4 - 5）
     7. 营业外收入
     8. 营业外支出
+    9. 税前利润
     9. 税
     10. 净利润(6 + 7 - 8 - 9)
 2. asset analysis:
@@ -27,6 +28,10 @@
     list is order by 利润率.
 4. algrithm
     define some valuable parameter, different algrithm can save different value to get its best asset
+    1. 毛利率 = 毛利润/营业收入（>40%），观察年限(10)
+    2. 营业收入增长率
+    3. 营业利润增长率
+    4. 净利润增长率
 5. data store
     save by file through json or encoding/binary
 
