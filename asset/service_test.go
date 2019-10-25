@@ -39,7 +39,7 @@ func Test_LoadIncome(t *testing.T) {
 	item := service.FindIncome(1)
 	if item == nil {
 		t.Error("nothing returned")
-	} else if item.BusinessCost != 4 {
-		t.Errorf("expect 4, %d received", item.BusinessCost)
+	} else if item.GrossProfit != 4 {
+		t.Errorf("GrossProfit expect 4, %d received", item.BusinessCost)
 	}
 }

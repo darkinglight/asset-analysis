@@ -12,6 +12,7 @@ const (
 )
 
 type Storage interface {
+	Create() error
 	Open() error
 	Close() error
 	Write(v interface{}) error
@@ -24,8 +25,18 @@ type storage struct {
 	io       *bufio.ReadWriter
 }
 
-func (s *storage) Open() error {
+func (s *storage) Create() error {
 	file, err := os.Create(s.filePath)
+	if err != nil {
+		return err
+	}
+	s.file = file
+	s.io = bufio.NewReadWriter(bufio.NewReader(file), bufio.NewWriter(file))
+	return nil
+}
+
+func (s *storage) Open() error {
+	file, err := os.Open(s.filePath)
 	if err != nil {
 		return err
 	}
@@ -45,7 +56,7 @@ func (s *storage) Write(v interface{}) error {
 	if err != nil {
 		return err
 	}
-	fmt.Fprintln(*s.io, str)
+	fmt.Fprintln(*s.io, string(str))
 	return nil
 }
 
@@ -54,8 +65,13 @@ func (s *storage) Read() ([]byte, error) {
 	return v, err
 }
 
-func NewStore(filePath string) (Storage, error) {
+func NewStore(filePath string, recreate bool) (Storage, error) {
 	s := &storage{filePath: filePath}
-	err := s.Open()
+	var err error
+	if recreate {
+		err = s.Create()
+	} else {
+		err = s.Open()
+	}
 	return s, err
 }

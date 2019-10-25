@@ -46,7 +46,7 @@ func (s service) FindIncome(statementId int) *Income {
 
 func (s service) StoreIncome() error {
 	incomes := s.income.FindAll()
-	storage, err := util.NewStore(util.IncomeStorage)
+	storage, err := util.NewStore(util.IncomeStorage, true)
 	if err != nil {
 		return err
 	}
@@ -56,7 +56,7 @@ func (s service) StoreIncome() error {
 }
 
 func (s service) LoadIncome() error {
-	storage, err := util.NewStore(util.IncomeStorage)
+	storage, err := util.NewStore(util.IncomeStorage, false)
 	if err != nil {
 		return err
 	}
