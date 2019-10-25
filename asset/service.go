@@ -62,7 +62,7 @@ func (s service) LoadIncome() error {
 	}
 	data, err := storage.Read()
 	var incomes []*income.Income
-	json.NewDecoder(data).Decode(&incomes)
+	json.Unmarshal(data, &incomes)
 
 	err = s.income.SaveAll(incomes)
 	if err != nil {

@@ -25,7 +25,7 @@ func (r *incomeRepository) Find(statementId int) *income.Income {
 func (r *incomeRepository) SaveAll(data []*income.Income) error {
 	r.mtx.Lock()
 	defer r.mtx.Unlock()
-	for item := range data {
+	for _, item := range data {
 		r.incomes[item.StatementId] = item
 	}
 	return nil

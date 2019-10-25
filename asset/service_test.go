@@ -28,3 +28,18 @@ func Test_StoreIncome(t *testing.T) {
 		t.Error("store failed")
 	}
 }
+
+func Test_LoadIncome(t *testing.T) {
+	incomes := inmem.NewIncomeRepository()
+	service := NewService(incomes)
+	err := service.LoadIncome()
+	if err != nil {
+		t.Error("load failed")
+	}
+	item := service.FindIncome(1)
+	if item == nil {
+		t.Error("nothing returned")
+	} else if item.BusinessCost != 4 {
+		t.Errorf("expect 4, %d received", item.BusinessCost)
+	}
+}

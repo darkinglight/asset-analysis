@@ -12,7 +12,7 @@ const (
 )
 
 type Storage interface {
-	Open(filePath string) error
+	Open() error
 	Close() error
 	Write(v interface{}) error
 	Read() ([]byte, error)
