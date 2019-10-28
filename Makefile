@@ -14,7 +14,7 @@ dbuild:
 	docker build -t my-golang-app .
 
 drun:
-	docker run -it --rm --name my-running-app my-golang-app
+	docker run -it --rm --name my-running-app -p 8000:8000 my-golang-app
 
 dgobuild:
 	docker run --rm -v `$PWD`:/usr/src/myapp -w /usr/src/myapp golang:1.13 go build -v
