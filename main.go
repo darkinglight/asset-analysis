@@ -54,6 +54,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.Handle("/asset/v1/", asset.MakeHandler(as, logger))
 	http.Handle("/", accessControl(mux))
+	http.Handle("/metrics", promhttp.Handler())
 
 	errs := make(chan error, 1)
 	go func() {
