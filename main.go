@@ -35,6 +35,7 @@ func main() {
 	fieldKeys := []string{"method"}
 	var as asset.Service
 	as = asset.NewService(incomes)
+	as = asset.NewLoggingService(logger, as)
 	as = asset.NewInstrumentingService(
 		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
 			Namespace: "api",
